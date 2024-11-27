@@ -1,0 +1,20 @@
+import os
+import sqlite3
+
+
+import os
+import sqlite3
+
+def create_directory(db_path):
+    directory = os.path.dirname(db_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Directory created at: {os.path.abspath(directory)}")  # Added log for the absolute path
+
+if __name__ == "__main__":
+    db_name = "instance/MainDB.db"
+    
+    # Ensure the directory exists
+    create_directory(db_name)
+    print("done")
+
