@@ -34,12 +34,14 @@ image_path_7= "clothes/children/T-shirts_/T-shirts_children_1.jpg"
 image_path_8= "clothes/children/Jeans/Jeans_children_1.jpg" 
 image_path_9= "clothes/children/Shoes/Shoes_children_1.jpg" 
 
-insert_image(db_name, image_path,1)
-insert_image(db_name, image_path,2)
-insert_image(db_name, image_path,3)
-insert_image(db_name, image_path,4)
-insert_image(db_name, image_path,5)
-insert_image(db_name, image_path,6)
-insert_image(db_name, image_path,7)
-insert_image(db_name, image_path,9)
+insert_image(db_name, image_path_1,1)
+insert_image(db_name, image_path_2,2)
+insert_image(db_name, image_path_3,3)
+insert_image(db_name, image_path_4,4)
+insert_image(db_name, image_path_5,5)
+insert_image(db_name, image_path_6,6)
+insert_image(db_name, image_path_7,7)
+insert_image(db_name, image_path_8,8)
+insert_image(db_name, image_path_9,9)
+
 

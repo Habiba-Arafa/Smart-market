@@ -85,6 +85,8 @@ class VendorDatabase(database_base_model):
         except sqlite3.Error as e:
             print(f"Error fetching vendor info: {e}")
             return None
+        
+    
 
 
 # Customer class to manage customer operations
