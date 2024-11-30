@@ -236,14 +236,26 @@ body.login-page {
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
-    display: flex;
+    display: center;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     padding: 0 50px;
 }
 
 /* Form Container Styling for Login Page */
-body.login-page .form-container {
+body {
+    background: url('media/pexels-kseniachernaya-3965548.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.form-container {
     max-width: 400px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
@@ -251,18 +263,6 @@ body.login-page .form-container {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border: 2px solid #007bff;
-    margin-right: auto;
 }
-    /* Fullscreen background image */
-    body {
-        background: url('media/pexels-kseniachernaya-3965548.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
+
       
