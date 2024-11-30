@@ -215,3 +215,37 @@ def product_details(product_id):
     noOfItems = getLoginDetails()
     product = Products.query.get_or_404(product_id)
     return render_template('product_details.html', product=product, noOfItems=noOfItems)
+
+
+@app.route("/set_discount", methods=['GET', 'POST'])
+@login_required
+def set_discount():
+    # Fetch categories and products for dropdowns
+    categories = Category.query.all()
+    products = Products.query.filter_by(vendor_id=current_user.id).all()
+
+    if request.method == 'POST':
+        discount_type = request.form.get("discount_type")  # "product" or "category"
+        discount_value = float(request.form.get("discount"))
+        
+        if discount_type == "product":
+            product_id = int(request.form.get("product_id"))
+            product = Products.query.get(product_id)
+            if product and product.vendor_id == current_user.id:
+                product.discount = discount_value
+                db.session.commit()
+                flash(f'Discount of {discount_value}% set for product {product.name}!', 'success')
+            else:
+                flash('Invalid product selection.', 'danger')
+
+        elif discount_type == "category":
+            category_id = int(request.form.get("category_id"))
+            products_in_category = Products.query.filter_by(category_id=category_id, vendor_id=current_user.id).all()
+            for product in products_in_category:
+                product.discount = discount_value
+            db.session.commit()
+            flash(f'Discount of {discount_value}% set for all products in the category!', 'success')
+
+        return redirect(url_for('set_discount'))
+
+    return render_template('set_discount.html', categories=categories, products=products)
