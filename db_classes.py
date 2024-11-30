@@ -120,6 +120,24 @@ class VendorDatabase(database_base_model):
         except sqlite3.Error as e:
          print(f"Error adding item: {e}")
 
+
+    def delete_item(self, item_id):
+        try:
+            self.cursor().execute("SELECT * FROM Items_new WHERE ItemID = ?", (item_id,))
+            item = self.cursor().fetchone()
+
+            if not item:
+                print(f"Item with ID {item_id} does not exist.")
+                return
+
+            print(f"Deleting item with ID {item_id}...")
+            self.cursor().execute("DELETE FROM Items_new WHERE ItemID = ?", (item_id,))
+            self.commit()
+            print(f"Item with ID {item_id} deleted successfully.")
+        
+        except sqlite3.Error as e:
+            print(f"Error deleting item: {e}")
+
         
     
 
@@ -192,4 +210,7 @@ class CustomerDatabase(database_base_model):
 
 
 
+# vendor_db = VendorDatabase()
 
+# item_id_to_delete = 1
+# vendor_db.delete_item(item_id=item_id_to_delete)
