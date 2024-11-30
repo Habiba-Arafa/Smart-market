@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Products</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: url('media/vendor.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    .manage-container {
+      background: rgba(0, 0, 0, 0.8);
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 1200px;
+      width: 100%;
+    }
+    .product-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .product-details {
+      padding: 15px;
+    }
+    .product-details h5 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .product-details p {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .product-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .btn-update {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+    }
+    .btn-update:hover {
+      background-color: #0056b3;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      border: none;
+      color: #fff;
+    }
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container manage-container">
+    <h2 class="text-center mb-4">Manage Products</h2>
+    <div class="row gy-4">
+
+      <!-- Example Product Card -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="media/example-product1.jpg" alt="Product Image">
+          <div class="product-details">
+            <h5>Wireless Headphones</h5>
+            <p>Price: $99.99</p>
+            <p>Quantity: 20</p>
+            <div class="product-actions">
+              <button class="btn btn-update btn-sm">Update</button>
+              <button class="btn btn-delete btn-sm">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example Product Card -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="media/example-product2.jpg" alt="Product Image">
+          <div class="product-details">
+            <h5>Smartphone</h5>
+            <p>Price: $499.99</p>
+            <p>Quantity: 15</p>
+            <div class="product-actions">
+              <button class="btn btn-update btn-sm">Update</button>
+              <button class="btn btn-delete btn-sm">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example Product Card -->
+      <div class="col-md-4">
+        <div class="card product-card">
+          <img src="media/example-product3.jpg" alt="Product Image">
+          <div class="product-details">
+            <h5>Gaming Laptop</h5>
+            <p>Price: $1199.99</p>
+            <p>Quantity: 10</p>
+            <div class="product-actions">
+              <button class="btn btn-update btn-sm">Update</button>
+              <button class="btn btn-delete btn-sm">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

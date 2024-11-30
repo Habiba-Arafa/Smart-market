@@ -1,0 +1,268 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Header Styling */
+header {
+    background-color: #343a40;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #343a40;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #007bff;
+    padding: 10px 0;
+    z-index: 10;
+}
+
+.navbar .navbar-brand {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+.navbar .nav-link {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #ffc107 !important;
+}
+
+/* Home Hero Section with Custom Image */
+.image-section {
+    background-image: url('media/pexels-olly-974911.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 540px; 
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+
+.image-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.image-overlay h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.image-overlay p {
+    font-size: 1.5rem;
+}
+
+/* Container Styling */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+/* Form Container Styling */
+.form-container {
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #007bff;
+}
+
+/* Contact Us and Welcome Boxes */
+.contact-us, .welcome {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Or Divider Styling */
+.or-divider {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.or-divider span {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Third Party Sign-in Button Styling */
+.third-party-sign-in button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Google Sign-in Button Styling */
+#google-sign-in {
+    background-color: #db4437;
+}
+
+#google-sign-in:hover {
+    background-color: #c1351d;
+}
+
+/* Facebook Sign-in Button Styling */
+#facebook-sign-in {
+    background-color: #4267b2;
+}
+
+#facebook-sign-in:hover {
+    background-color: #365899;
+}
+
+.third-party-sign-in button {
+    background-size: cover;
+    background-position: center;
+    height: 50px;
+}
+
+/* Third Party Icon Styling */
+.third-party-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Search Bar Styling */
+.search-bar {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Flexbox Layout for Positioning Elements */
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+/* Body Styling for Login Page Only */
+body.login-page {
+    background-image: url('media/pexels-karolina-grabowska-5650023.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 50px;
+}
+
+/* Form Container Styling for Login Page */
+body.login-page .form-container {
+    max-width: 400px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #007bff;
+    margin-right: auto;
+}
+    /* Fullscreen background image */
+    body {
+        background: url('media/pexels-kseniachernaya-3965548.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  
+      
