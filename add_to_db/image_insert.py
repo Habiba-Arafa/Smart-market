@@ -1,40 +1,28 @@
 import sqlite3
 
-
-#  Convert image file to binary data
-def convert_to_binary(filename):
-
-    with open(filename, "rb") as file:
-        return file.read()
-
-def insert_product_image(product_name, image_path, db_name):
-   
+def insert_image(db_name, image_path, item_id):
     try:
+        # Open the image and convert it into binary data
+        with open(image_path, 'rb') as file:
+            img_data = file.read()
+
+        # Connect to the database
         connection = sqlite3.connect(db_name)
         cursor = connection.cursor()
-        query = '''INSERT INTO Products (product_name, photo) VALUES (?, ?)'''
-        product_img = convert_to_binary(image_path) 
-        cursor.execute(query, (product_name, product_img))
-        connection.commit()
-        cursor.close()
-    except sqlite3.Error as error:
-        print("Failed to insert product image:", error)
-    finally:
-        if connection:
-            connection.close()
 
-def insert_category_image(category_name, image_path, db_name):
-    try:
-        connection = sqlite3.connect(db_name)
-        cursor = connection.cursor()
-        query = '''INSERT INTO Categories (category_name, photo) VALUES (?, ?)'''
-        category_img = convert_to_binary(image_path) 
-        cursor.execute(query, (category_name, category_img))
-        connection.commit()
-        cursor.close()
-    except sqlite3.Error as error:
-        print("Failed to insert category image:", error)
-    finally:
-        if connection:
-            connection.close()
+        # Update the item with the image binary data
+        cursor.execute("UPDATE Items SET Image = ? WHERE ItemID = ?", (img_data, item_id))
 
+        # Commit and close connection
+        connection.commit()
+        connection.close()
+        print("Image inserted successfully.")
+    except FileNotFoundError:
+        print(f"Error: The file at {image_path} was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example: Insert an image for item with ID 1
+db_name = "instance/MainDB.db"
+image_path = "clothes/children/Jeans/Jeans_children_1.jpg"  # Adjust this path if necessary
+insert_image(db_name, image_path,8)

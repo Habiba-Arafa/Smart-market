@@ -1,27 +1,23 @@
 import sqlite3
 
-def create_products_table(db_name):
+def insert_categories(db_name):
+    # Connect to the database
     connection = sqlite3.connect(db_name)
     cursor = connection.cursor()
 
-    table = '''CREATE TABLE IF NOT EXISTS Products (
-                    product_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    vendor_id INTEGER,
-                    category_id INTEGER,
-                    product_name TEXT NOT NULL,
-                    description TEXT,
-                    price REAL NOT NULL,
-                    discount REAL DEFAULT 0,
-                    photo BLOB, 
-                    stock INTEGER DEFAULT 0,
-                    product_colour TEXT,
-                    FOREIGN KEY (vendor_id) REFERENCES Users(user_id)
-                )'''
-    cursor.execute(table)
+    # Insert category data
+    categories = [
+        ("Women",),
+        ("Men",),
+        ("Children",)
+    ]
+    cursor.executemany("INSERT INTO Categories (CategoryName) VALUES (?)", categories)
+
+    # Commit and close connection
     connection.commit()
     connection.close()
 
-if __name__ == "__main__":
-    db_name = "instance/MainDB.db"
-    create_products_table(db_name)
-    print("Products table created successfully.")
+# Insert categories into the database
+db_name = "instance/MainDB.db"
+insert_categories(db_name)
+print("Categories inserted successfully.")
