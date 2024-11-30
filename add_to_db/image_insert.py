@@ -24,5 +24,22 @@ def insert_image(db_name, image_path, item_id):
 
 # Example: Insert an image for item with ID 1
 db_name = "instance/MainDB.db"
-image_path = "clothes/children/Jeans/Jeans_children_1.jpg"  # Adjust this path if necessary
-insert_image(db_name, image_path,8)
+image_path_1 = "clothes/women/T-shirts/T-shirts_women_1.jpg" 
+image_path_2 = "clothes/women/Jeans/Jeans_women_1.jpg" 
+image_path_3= "clothes/women/Shoes/Shoes_women_1.jpg" 
+image_path_4= "clothes/men/T-shirts/T-shirts_men_1.jpg" 
+image_path_5= "clothes/men/Jeans/Jeans_men_1.jpg" 
+image_path_6= "clothes/men/Shoes/Shoes_men_1.jpg" 
+image_path_7= "clothes/children/T-shirts_/T-shirts_children_1.jpg" 
+image_path_8= "clothes/children/Jeans/Jeans_children_1.jpg" 
+image_path_9= "clothes/children/Shoes/Shoes_children_1.jpg" 
+
+insert_image(db_name, image_path,1)
+insert_image(db_name, image_path,2)
+insert_image(db_name, image_path,3)
+insert_image(db_name, image_path,4)
+insert_image(db_name, image_path,5)
+insert_image(db_name, image_path,6)
+insert_image(db_name, image_path,7)
+insert_image(db_name, image_path,9)
+
