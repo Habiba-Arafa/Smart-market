@@ -1,8 +1,8 @@
 import os
 import secrets
 from flask import render_template, url_for, flash, redirect, request
-from unwrap import app, db, bcrypt
-from unwrap.models import User, Products, Cart
+from website import app, db, bcrypt
+from models import User, Products, Cart
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import func, update
 

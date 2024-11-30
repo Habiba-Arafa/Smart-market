@@ -4,8 +4,8 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from unwrap import db
-from unwrap.models import Products
+from website import db
+from models import Products
 
 
 def main():
