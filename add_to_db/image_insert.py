@@ -11,7 +11,7 @@ def insert_image(db_name, image_path, item_id):
         cursor = connection.cursor()
 
         # Update the item with the image binary data
-        cursor.execute("UPDATE Items SET Image = ? WHERE ItemID = ?", (img_data, item_id))
+        cursor.execute("UPDATE Items_new SET Image = ? WHERE ItemID = ?", (img_data, item_id))
 
         # Commit and close connection
         connection.commit()

@@ -86,6 +86,41 @@ class VendorDatabase(database_base_model):
             print(f"Error fetching vendor info: {e}")
             return None
         
+    def add_item(self, category_name, product_name, price, stock, vendor_id, description=None, image=None):
+        try:
+        # Get the CategoryID based on the category_name
+         self.cursor().execute("SELECT CategoryID FROM Categories WHERE CategoryName = ?", (category_name,))
+         category_id = self.cursor().fetchone()
+
+         if not category_id:
+            print(f"Category '{category_name}' does not exist.")
+            return
+
+         category_id = category_id[0] 
+
+        # Get the ProductID based on the product_name
+         self.cursor().execute("SELECT ProductID FROM Products WHERE ProductName = ?", (product_name,))
+         product_id = self.cursor().fetchone()
+
+         if not product_id:
+            print(f"Product '{product_name}' does not exist.")
+            return
+
+         product_id = product_id[0] 
+
+        # Insert the new item into the Items table with VendorID
+         self.cursor().execute(
+            '''INSERT INTO Items_new (CategoryID, ProductID, VendorID, Price, Stock, Description, Image)
+               VALUES (?, ?, ?, ?, ?, ?, ?)''',
+            (category_id, product_id, vendor_id, price, stock, description, image)
+        )
+         self.commit()
+         print(f"Item added successfully: {product_name} in category {category_name} by Vendor {vendor_id}")
+    
+        except sqlite3.Error as e:
+         print(f"Error adding item: {e}")
+
+        
     
 
 
@@ -126,21 +161,35 @@ class CustomerDatabase(database_base_model):
 
 
 # Test the functions for updating and retrieving user info
-def test_vendor_and_customer_info():
-    vendor_db = VendorDatabase()
-    customer_db = CustomerDatabase()
+# def test_vendor_and_customer_info():
+#     vendor_db = VendorDatabase()
+#     customer_db = CustomerDatabase()
 
-    print("Updating vendor info...")
-    vendor_db.update_vendor_info(user_id=5, username="new_vendor_name", email="new_vendor_email@example.com")
+#     print("Updating vendor info...")
+#     vendor_db.update_vendor_info(user_id=5, username="new_vendor_name_twice", email="new_vendor_email@example.com")
     
-    vendor_info = vendor_db.get_vendor_info(user_id=5)
-    print(f"Vendor Info (After Update): {vendor_info}")
+#     vendor_info = vendor_db.get_vendor_info(user_id=5)
+#     print(f"Vendor Info (After Update): {vendor_info}")
 
-    print("\nUpdating customer info...")
-    customer_db.update_customer_info(user_id=3, username="new_customer_name", email="new_customer_email@example.com")
+#     print("\nUpdating customer info...")
+#     customer_db.update_customer_info(user_id=3, username="new_customer_name_twice", email="new_customer_email@example.com")
     
-    customer_info = customer_db.get_customer_info(user_id=3)
-    print(f"Customer Info (After Update): {customer_info}")
+#     customer_info = customer_db.get_customer_info(user_id=3)
+#     print(f"Customer Info (After Update): {customer_info}")
+
+    
+#     category_name = "Children"
+#     product_name = "Jeans"
+#     price = 17.99
+#     stock = 120
+#     vendor_id = 5 
+#     description = "Comfortable cotton t-shirt"
+#     image = None  
+#     vendor_db.add_item(category_name, product_name, price, stock, vendor_id, description, image)
 
 
-test_vendor_and_customer_info()
+# test_vendor_and_customer_info()
+
+
+
+

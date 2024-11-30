@@ -1,3 +1,5 @@
+
+
 import sqlite3
 
 def insert_items(db_name):
@@ -5,19 +7,24 @@ def insert_items(db_name):
     connection = sqlite3.connect(db_name)
     cursor = connection.cursor()
 
-    # Insert item data (use actual CategoryIDs and ProductIDs)
+    # Vendor IDs (as mentioned, only 5 and 6)
+    vendor_ids = [5, 6]
+
+    # Insert item data (use actual CategoryIDs and ProductIDs, VendorID added)
     items = [
-        (1, 1, 15.99, 100, "Women's T-shirt", None),  # No image for now
-        (1, 2, 39.99, 150, "Women's Jeans", None),
-        (1, 3, 29.99, 200, "Women's Shoes", None),
-        (2, 1, 17.99, 120, "Men's T-shirt", None),
-        (2, 2, 45.99, 100, "Men's Jeans", None),
-        (2, 3, 35.99, 250, "Men's Shoes", None),
-        (3, 1, 10.99, 300, "Children's T-shirt", None),
-        (3, 2, 25.99, 180, "Children's Jeans", None),
-        (3, 3, 18.99, 400, "Children's Shoes", None)
+        (1, 1, vendor_ids[0], 15.99, 100, "Women's T-shirt", None),  # Vendor 5
+        (1, 2, vendor_ids[1], 39.99, 150, "Women's Jeans", None),  # Vendor 6
+        (1, 3, vendor_ids[0], 29.99, 200, "Women's Shoes", None),  # Vendor 5
+        (2, 1, vendor_ids[1], 17.99, 120, "Men's T-shirt", None),  # Vendor 6
+        (2, 2, vendor_ids[0], 45.99, 100, "Men's Jeans", None),  # Vendor 5
+        (2, 3, vendor_ids[1], 35.99, 250, "Men's Shoes", None),  # Vendor 6
+        (3, 1, vendor_ids[0], 10.99, 300, "Children's T-shirt", None),  # Vendor 5
+        (3, 2, vendor_ids[1], 25.99, 180, "Children's Jeans", None),  # Vendor 6
+        (3, 3, vendor_ids[0], 18.99, 400, "Children's Shoes", None)  # Vendor 5
     ]
-    cursor.executemany("INSERT INTO Items (CategoryID, ProductID, Price, Stock, Description, Image) VALUES (?, ?, ?, ?, ?, ?)", items)
+
+    # Insert items into the table, including the VendorID
+    cursor.executemany("INSERT INTO Items_new (CategoryID, ProductID, VendorID, Price, Stock, Description, Image) VALUES (?, ?, ?, ?, ?, ?, ?)", items)
 
     # Commit and close connection
     connection.commit()

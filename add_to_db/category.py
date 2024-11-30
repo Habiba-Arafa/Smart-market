@@ -21,7 +21,7 @@ def create_tables(db_name):
                         Price REAL NOT NULL,
                         Stock INTEGER NOT NULL,
                         Description TEXT,
-                        Image BLOB,  -- عمود لتخزين الصورة
+                        Image BLOB,  
                         FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
                         FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
                     )''')
