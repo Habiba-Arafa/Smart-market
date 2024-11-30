@@ -52,3 +52,23 @@ class Cart(db.Model):
     def __repr__(self):
         return f"Cart('Product id:{self.product_id}','id: {self.id}','User id:{self.user_id}'')"
 
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    products = db.relationship('Products', backref='category', lazy=True)
+
+class Products(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    image = db.Column(db.String(100), nullable=False)
+    discount = db.Column(db.Float, default=0.0)  # Discount percentage
+    vendor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=True)  # Category relationship
+
+    def get_discounted_price(self):
+        """Calculate the discounted price"""
+        return self.price - (self.price * (self.discount / 100))
+
