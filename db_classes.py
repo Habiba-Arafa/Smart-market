@@ -86,57 +86,106 @@ class VendorDatabase(database_base_model):
             print(f"Error fetching vendor info: {e}")
             return None
         
-    def add_item(self, category_name, product_name, price, stock, vendor_id, description=None, image=None):
-        try:
-        # Get the CategoryID based on the category_name
-         self.cursor().execute("SELECT CategoryID FROM Categories WHERE CategoryName = ?", (category_name,))
-         category_id = self.cursor().fetchone()
+    # def add_item(self, category_name, product_name, price, stock, vendor_id, description=None, image=None):
+    #  try:
+    #     # Get the CategoryID based on the category_name
+    #     print(f"Fetching CategoryID for category '{category_name}'...")
+    #     self.cursor().execute("SELECT CategoryID FROM Categories WHERE CategoryName = ?", (category_name,))
+    #     category_id = self.cursor().fetchone()
 
-         if not category_id:
+    #     if not category_id:
+    #         print(f"Category '{category_name}' does not exist in Categories table.")
+    #         return
+
+    #     category_id = category_id[0]  # Extract category_id from the tuple
+    #     print(f"Found CategoryID: {category_id}")
+
+    #     # Get the ProductID based on the product_name
+    #     print(f"Fetching ProductID for product '{product_name}'...")
+    #     self.cursor().execute("SELECT ProductID FROM Products WHERE ProductName = ?", (product_name,))
+    #     product_id = self.cursor().fetchone()
+
+    #     if not product_id:
+    #         print(f"Product '{product_name}' does not exist in Products table.")
+    #         return
+
+    #     product_id = product_id[0]  # Extract product_id from the tuple
+    #     print(f"Found ProductID: {product_id}")
+
+    #     # Insert the new item into the Items_new table with VendorID
+    #     print(f"Inserting item into Items_new table...")
+    #     self.cursor().execute(
+    #         '''INSERT INTO Items_new (CategoryID, ProductID, VendorID, Price, Stock, Description, Image)
+    #            VALUES (?, ?, ?, ?, ?, ?, ?)''',
+    #         (category_id, product_id, vendor_id, price, stock, description, image)
+    #     )
+    #     self.commit()
+
+    #     print(f"Item '{product_name}' in category '{category_name}' added successfully by Vendor {vendor_id}.")
+    
+    #  except sqlite3.Error as e:
+    #     print(f"Error adding item: {e}")
+
+    def add_item(self, category_name, product_name, price, stock, vendor_id, description=None, image=None):
+    # First, fetch the CategoryID for the given category_name
+     category_name = category_name.strip()  # Ensure no leading/trailing spaces
+     query_category = 'SELECT CategoryID FROM Categories WHERE LOWER(CategoryName) = LOWER(?)'
+
+     try:
+        print(f"Executing query: {query_category} with parameters: ({category_name,})")  # Print query for debugging
+        self.cursor().execute(query_category, (category_name,))
+        category_id = self.cursor().fetchone()
+
+        if not category_id:
             print(f"Category '{category_name}' does not exist.")
             return
+        
+        category_id = category_id[0]  # Extract CategoryID from the result
 
-         category_id = category_id[0] 
+        # Fetch the ProductID for the given product_name
+        query_product = 'SELECT ProductID FROM Products WHERE ProductName = ?'
+        self.cursor().execute(query_product, (product_name,))
+        product_id = self.cursor().fetchone()
 
-        # Get the ProductID based on the product_name
-         self.cursor().execute("SELECT ProductID FROM Products WHERE ProductName = ?", (product_name,))
-         product_id = self.cursor().fetchone()
-
-         if not product_id:
+        if not product_id:
             print(f"Product '{product_name}' does not exist.")
             return
+        
+        product_id = product_id[0]  # Extract ProductID from the result
 
-         product_id = product_id[0] 
+        query_insert = '''INSERT INTO Items_new (CategoryID, ProductID, VendorID, Price, Stock, Description, Image) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?)'''
+        self.cursor().execute(query_insert, (category_id, product_id, vendor_id, price, stock, description, image))
+        self.commit()
 
-        # Insert the new item into the Items table with VendorID
-         self.cursor().execute(
-            '''INSERT INTO Items_new (CategoryID, ProductID, VendorID, Price, Stock, Description, Image)
-               VALUES (?, ?, ?, ?, ?, ?, ?)''',
-            (category_id, product_id, vendor_id, price, stock, description, image)
-        )
-         self.commit()
-         print(f"Item added successfully: {product_name} in category {category_name} by Vendor {vendor_id}")
+        print(f"Item '{product_name}' added successfully in category '{category_name}' by Vendor {vendor_id}.")
     
-        except sqlite3.Error as e:
-         print(f"Error adding item: {e}")
+     except Exception as e:
+        print(f"Error adding item: {e}")
+     finally:
+        self.close() 
+
+
 
 
     def delete_item(self, item_id):
-        try:
-            self.cursor().execute("SELECT * FROM Items_new WHERE ItemID = ?", (item_id,))
-            item = self.cursor().fetchone()
+     query = 'DELETE FROM Items_new WHERE ItemID = ?'
+     try:
+        # Execute the delete query with the provided item_id
+        print(f"Deleting item with ID {item_id} from Items_new...")
+        self.cursor().execute(query, (item_id,))
+        self.commit()
+        print(f"Item with ID {item_id} deleted successfully.")
+     except Exception as e:
+        print(f"Error deleting item: {e}")
+        # Add additional logging or raise the exception if needed
+     finally:
+        self.close()
 
-            if not item:
-                print(f"Item with ID {item_id} does not exist.")
-                return
 
-            print(f"Deleting item with ID {item_id}...")
-            self.cursor().execute("DELETE FROM Items_new WHERE ItemID = ?", (item_id,))
-            self.commit()
-            print(f"Item with ID {item_id} deleted successfully.")
-        
-        except sqlite3.Error as e:
-            print(f"Error deleting item: {e}")
+
+
+
 
         
     
@@ -179,8 +228,8 @@ class CustomerDatabase(database_base_model):
 
 
 # Test the functions for updating and retrieving user info
-# def test_vendor_and_customer_info():
-#     vendor_db = VendorDatabase()
+def test_vendor_and_customer_info():
+    vendor_db = VendorDatabase()
 #     customer_db = CustomerDatabase()
 
 #     print("Updating vendor info...")
@@ -196,17 +245,17 @@ class CustomerDatabase(database_base_model):
 #     print(f"Customer Info (After Update): {customer_info}")
 
     
-#     category_name = "Children"
-#     product_name = "Jeans"
-#     price = 17.99
-#     stock = 120
-#     vendor_id = 5 
-#     description = "Comfortable cotton t-shirt"
-#     image = None  
-#     vendor_db.add_item(category_name, product_name, price, stock, vendor_id, description, image)
+    category_name = "Children"
+    product_name = "Jeans"
+    price = 17.99
+    stock = 120
+    vendor_id = 5 
+    description = "Comfortable cotton t-shirt"
+    image = None  
+    vendor_db.add_item(category_name, product_name, price, stock, vendor_id, description, image)
 
 
-# test_vendor_and_customer_info()
+test_vendor_and_customer_info()
 
 
 
