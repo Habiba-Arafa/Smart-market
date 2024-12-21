@@ -1,0 +1,8 @@
+/* Set the background image for the entire page */
+body {
+    background-image: url('../images/store-4027251_1280.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Add a New Product</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <div>
+            <label for="name">{{ form.name.label }}</label>
+            {{ form.name() }}
+        </div>
+        
+        <div>
+            <label for="price">{{ form.price.label }}</label>
+            {{ form.price() }}
+        </div>
+
+        <div>
+            <label for="discount">{{ form.discount.label }}</label>
+            {{ form.discount() }}
+        </div>
+
+        <div>
+            <label for="stock">{{ form.stock.label }}</label>
+            {{ form.stock() }}
+        </div>
+
+        <div>
+            <label for="colors">{{ form.colors.label }}</label>
+            {{ form.colors() }}
+        </div>
+
+        <div>
+            <label for="desc">{{ form.desc.label }}</label>
+            {{ form.desc() }}
+        </div>
+
+        <div>
+            <label for="category_id">{{ form.category_id.label }}</label>
+            {{ form.category_id() }}
+        </div>
+
+        <div>
+            <label for="brand_id">{{ form.brand_id.label }}</label>
+            {{ form.brand_id() }}
+        </div>
+
+        <div>
+            <label for="image_1">{{ form.image_1.label }}</label>
+            {{ form.image_1() }}
+        </div>
+
+        <div>
+            <label for="image_2">{{ form.image_2.label }}</label>
+            {{ form.image_2() }}
+        </div>
+
+        <div>
+            <label for="image_3">{{ form.image_3.label }}</label>
+            {{ form.image_3() }}
+        </div>
+
+        <div>
+            <button type="submit">Add Product</button>
+        </div>
+    </form>
+
+</body>
+</html>

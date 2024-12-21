@@ -1,0 +1,167 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartMarket Cart</title>
+  <style>
+    /* CSS Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .cart, .paypal-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    .cart h2, .paypal-container h2 {
+      text-align: center;
+    }
+
+    #cart-items {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #cart-items li {
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #cart-items li:last-child {
+      border-bottom: none;
+      font-weight: bold;
+    }
+
+    .paypal-container {
+      text-align: center;
+    }
+
+    .add-product-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-product-btn:hover {
+      background-color: #218838;
+    }
+
+    .remove-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: #c82333;
+    }
+
+    .main-page-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .main-page-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SmartMarket Cart</h1>
+  </header>
+
+  <main>
+    <div class="cart">
+      <h2>Your Cart</h2>
+      {% if cart_items %}
+      <ul id="cart-items">
+        {% for item in cart_items %}
+        <li>
+          <span>
+            <img src="{{ url_for('static', filename='uploads/' + item.image) }}" alt="{{ item.name }}" width="50">
+            {{ item.name }}
+          </span>
+          <span>${{ item.price }}</span>
+          <a href="{{ url_for('remove_from_cart', product_id=item.id) }}" class="remove-btn">Remove</a>
+        </li>
+        {% endfor %}
+      </ul>
+      <h3>Total: ${{ total_price }}</h3>
+      {% else %}
+      <p>Your cart is empty.</p>
+      {% endif %}
+    </div>
+
+    <div class="paypal-container">
+      <h2>Complete Your Payment</h2>
+      <div id="paypal-button-container-P-9H381856VN070800LM5SZU5Y"></div>
+    </div>
+  </main>
+
+  <!-- Button to redirect to the main page -->
+  <div style="text-align: center;">
+    <a href="/" class="main-page-btn">Go to Main Page</a>
+  </div>
+
+  <!-- PayPal SDK and Buttons -->
+  <script src="https://www.paypal.com/sdk/js?client-id=AWgmymBwJ8BzkBvTUZR8_r6tIzQUyB7Gze34wLDYRh6cX3HUum353fCAnzbppqwMRtT1XaniKDeaFyUD&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+  <script>
+    // PayPal subscription button
+    paypal.Buttons({
+        style: {
+            shape: 'pill',
+            color: 'gold',
+            layout: 'horizontal',
+            label: 'subscribe'
+        },
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({
+            /* Creates the subscription */
+            plan_id: 'P-9H381856VN070800LM5SZU5Y'
+          });
+        },
+        onApprove: function(data, actions) {
+          alert("Subscription created successfully! ID: " + data.subscriptionID);
+        }
+    }).render('#paypal-button-container-P-9H381856VN070800LM5SZU5Y'); // Renders the PayPal button
+  </script>
+</body>
+</html>

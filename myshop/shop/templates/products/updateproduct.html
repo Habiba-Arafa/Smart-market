@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+{% include '_messages.html' %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="text-center bg-info p-2 h4">Update a product</div>
+                {% from "_formhelpers.html" import render_field %}
+                <form method="post" enctype="multipart/form-data">
+                <div>
+                    {{ render_field(form.name, class="form-control") }}
+                    {{ render_field(form.price, class="form-control") }}
+                    {{ render_field(form.discount, class="form-control") }}
+                    {{ render_field(form.stock, class="form-control") }}
+                    <label for="brand">Add a brand</label>
+                    <select name="brand" id="brand" class="form-control" required>
+                        <!-- {% if getproduct %}
+                        <option value="{{getproduct.brand_id}}" style="display: none;">{{getproduct.brand.name}}</option>
+                        {% for brand in brands %}
+                        <option value="{{brand.id}}">{{brand.name}}</option>
+                        {% endfor %}
+                       {% else %} -->
+                     <option value="{{product.brand_id}}">{{product.brand.name}}</option>
+
+                     {% for brand in brands %}
+                     <option value="{{brand.id}}">{{brand.name}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+
+                    <label for="category">Add a category</label>
+                    <select name="category" id="category" class="form-control" required>
+                    <!-- {% if getproduct %}
+                      <option value="{{getproduct.category_id}}" style="display: none;">{{getproduct.category.name}}</option>
+                      {% for category in categories %}
+                      <option value="{{category.id}}">{{category.name}}</option>
+                      {% endfor %}
+                     {% else %} -->
+                     <option value="{{product.category_id}}">{{product.category.name}}</option>
+
+                     {% for category in categories %}
+                     <option value="{{category.id}}">{{category.name}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+
+                    {{ render_field(form.colors, class="form-control") }}
+                    {{ render_field(form.desc, class="form-control", rows="10") }}
+                </div>
+                
+                </div>
+                <p><input type="submit" value="{% if getproduct %}Update {% else %}Update{% endif %} product" class="btn-outline-info">
+                </form>
+            </div>
+      <div class="col-md-1"></div>
+    </div>
+</div>
+{% endblock content %}
