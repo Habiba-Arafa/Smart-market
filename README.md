@@ -149,3 +149,5 @@ After installation, use **Smart Market** to manage and purchase tech products.
     Open your browser and go to `http://localhost:5000`
 
 
+License
+This project is licensed under the MIT License.
