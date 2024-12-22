@@ -22,9 +22,6 @@ The Online Smart Market project is designed to provide users with a seamless sho
     - [Installation](#installation)
 4. [Usage](#usage)
 5. [License](#license)
-6. [Contributing](#contributing)
-7. [Contact](#contact)
-8. [Acknowledgements](#acknowledgements)
 
 ---
 
