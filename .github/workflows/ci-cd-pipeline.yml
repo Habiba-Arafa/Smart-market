@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline for AWS EC2
 
 on:
   push:
@@ -6,50 +6,57 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-22.04
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+      actions: none
 
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set Up SSH
+        uses: webfactory/ssh-agent@v0.5.4
         with:
-          python-version: 3.12
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      # Step 3: Install dependencies (No testing step)
-      - name: Install dependencies
+      - name: Copy Files to EC2
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      # Step 4: Deploy to EC2 server
-      - name: Deploy to EC2
-        uses: easingthemes/ssh-deploy@main
+          rsync -avz --delete ./ ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIRECTORY }}/
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }} # Private SSH key for EC2
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}         # EC2 instance DNS or IP
-          REMOTE_USER: ${{ secrets.USERNAME }}         # SSH username
-          TARGET: ${{ secrets.TARGET_DIR }}            # Target directory on the EC2 instance
+          SSH_AUTH_SOCK: ${{ secrets.SSH_AUTH_SOCK }}
 
-      # Step 5: Execute remote commands for server configuration
-      - name: Configure EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}                # EC2 instance host
-          username: ${{ secrets.USERNAME }}            # SSH username
-          key: ${{ secrets.EC2_SSH_KEY }}              # Private SSH key for EC2
-          script: |
-            # Update packages
-            sudo apt-get -y update
-            # Install Apache if needed
-            sudo apt-get install -y apache2
-            # Start and enable Apache service
+      - name: Execute Remote Commands
+        run: |
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
+            sudo apt update -y
+            sudo apt install apache2 -y
             sudo systemctl start apache2
             sudo systemctl enable apache2
-            # Move application files to the target directory
-            cd /home
-            sudo mv * /var/www/html
+            sudo cp -r ~/resume/* /var/www/html/
+            sudo systemctl restart apache2
+          EOF
+
+      - name: Notify Slack on Success
+        if: success()
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          payload: |
+            {
+              "text": "Deployment to EC2 instance ${{ secrets.HOST_DNS }} was successful!"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
+            # Example rollback commands
+            git -C ~/resume checkout HEAD~1
+            sudo cp -r ~/resume/* /var/www/html/
+            sudo systemctl restart apache2
+          EOF
