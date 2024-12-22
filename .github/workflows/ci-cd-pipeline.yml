@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for AWS EC2
+name: CI/CD Pipeline
 
 on:
   push:
@@ -6,57 +6,22 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write
-      actions: none
+  build:
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set Up SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
 
-      - name: Copy Files to EC2
-        run: |
-          rsync -avz --delete ./ ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIRECTORY }}/
-        env:
-          SSH_AUTH_SOCK: ${{ secrets.SSH_AUTH_SOCK }}
-
-      - name: Execute Remote Commands
-        run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
-            sudo apt update -y
-            sudo apt install apache2 -y
-            sudo systemctl start apache2
-            sudo systemctl enable apache2
-            sudo cp -r ~/resume/* /var/www/html/
-            sudo systemctl restart apache2
-          EOF
-
-      - name: Notify Slack on Success
-        if: success()
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          payload: |
-            {
-              "text": "Deployment to EC2 instance ${{ secrets.HOST_DNS }} was successful!"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Rollback on Failure
-        if: failure()
-        run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} << 'EOF'
-            # Example rollback commands
-            git -C ~/resume checkout HEAD~1
-            sudo cp -r ~/resume/* /var/www/html/
-            sudo systemctl restart apache2
-          EOF
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run application
+      run: |
+        echo "No tests specified, just running the app if necessary."
