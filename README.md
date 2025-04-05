@@ -9,15 +9,6 @@ The Online Smart Market project is designed to provide users with a seamless sho
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)
 
-## Table of Contents
-
-1. [Description](#description)
-2. [Features](#features)
-3. [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-4. [Usage](#usage)
-5. [License](#license)
 
 ---
 
