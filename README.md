@@ -23,7 +23,7 @@ The Online Smart Market project is designed to provide users with a seamless sho
 - **Shopping Cart:** Add, update, and remove products before purchase.
 - **Order Management:** Track and manage user orders.
 - **Inventory Management:** Admins can add, edit, or delete products.
-- 
+
 ## Getting Started
 
 Follow these instructions to set up and run **Smart Market** on your local machine.
